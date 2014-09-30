@@ -2,3 +2,26 @@
  * @author Michal Gacki 
  * @description Pure CSS. I didn't use any bootstrap in this project
  */
+html, body { margin: 0; cursor: default; -moz-user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -ms-user-select: none; -ms-scroll-translation: vertical-to-horizontal; overflow-x: hidden; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-size: 18px; font-family: Arial; background: #f3f3f3; }
+img, ul, ol, form, form fieldset, h1, h2, h3, h4, h5, h6, p { margin: 0; padding: 0; border: 0; }
+i { font: normal normal normal 1em/1 FontAwesome; }
+#main, #main #header ul { max-width: 800px; margin: 0 auto; }
+    #main #header { width: 100%; min-height: 40px; position: absolute; top: 0; left: 0; clear: both; overflow: hidden; background: #bac6c7; }
+        #main #header #menu_collapse { display: none; float: left; width: 40px; height: 40px; text-align: center; line-height: 1.5em; font-size: 1.4em; background: #c3d7d8; cursor: pointer; }
+        #main #header #menu_collapse:hover { background: #d7e6e7; }
+        #main #header ul { list-style: none; }
+        #main #header ul.hidden { display: block; }
+            #main #header ul li { float: left; width: 33%; text-align: center; }
+                #main #header ul li a { display: block; padding: 10px 0 10px 0; font-size: 0.9em; color: black; text-decoration: none; text-shadow: 1px 1px 1px white; }
+                #main #header ul li:hover a { background: #bccfd0; }
+                #main #header ul li.active a { background: #c3d7d8; }
+    #main #content { padding: 50px 0 0 0; }
+    #main #footer { margin: 10px 0 0 0; padding: 10px 0 10px 0; font-size: 0.8em; clear: both; overflow: hidden; text-align: center; border-top: 1px solid #999; }
+@media screen and (max-width: 600px) {
+    body { margin: 0 2% 0 2%; }
+    #main #header #menu_rwd, #main #header #menu_collapse { display: block; }
+    #main #header ul { margin-top: 40px; }
+    #main #header ul li { float: none; display: block; width: 100%; }
+    #main #header ul.hidden { display: none; }
+}

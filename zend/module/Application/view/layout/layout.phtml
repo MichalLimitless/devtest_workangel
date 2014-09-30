@@ -1,5 +1,5 @@
 <?php echo $this->doctype(); ?>
-<html lang="en">
+<html lang="en" ng-app="Wallet">
     <head>
         <meta charset="utf-8">
         <?=$this->headTitle($this->translate('Michal Gacki developer test for Work Angel'))->setSeparator(' - ')->setAutoEscape(false)?>
@@ -7,30 +7,35 @@
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
         ?>
+        <link href="<?=$this->basePath().'/css/font-awesome.min.css'?>" rel="stylesheet" type="text/css">
         <link href="<?=$this->basePath().'/css/style.css'?>" rel="stylesheet" type="text/css">
-        <?=$this->headScript()
-            ->prependFile($this->basePath().'/js/frontend.js')
-            ->prependFile('https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.3/angular.min.js')
-        ?>
+        <script src="<?=$this->basePath().'/js/angular.min.js'?>"></script>
+        <script src="<?=$this->basePath().'/js/angular-resource.min.js'?>"></script>
+        <script src="<?=$this->basePath().'/js/frontend.js'?>"></script>
     </head>
-    <body>
-        <div id="content">
-            <?=$this->content?>
-        </div>
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="<?=$this->url('home')?>"><?=$this->translate('Home')?></a></li>
-                    <li><a href="#"><?=$this->translate('Reset')?></a></li>
-                    <li><a href="view-source:#"><?=$this->translate('View Source')?></a></li>
-                </ul>
-            </nav>
-        </header>
-        <footer>
-            <div id="footer">
-                <p>&copy; 2014 Created by Michal Gacki</p>
+    <body ng-controller="AppController">
+        <div id="main">
+            <div id="content">
+                <?=$this->content?>
             </div>
-        </footer>
-        <?php echo $this->inlineScript() ?>
+            <header>
+                <nav>
+                    <div id="header">
+                        <i id="menu_collapse" ng-init="navCollapsed = false" ng-click="navCollapsed = !navCollapsed" class="fa-navicon fa-reorder fa-bars"></i>
+                        <ul class="collapse hidden" ng-class="!navCollapsed && 'hidden'" ng-click="navCollapsed=true">
+                            <li class="active"><a href="<?=$this->url('home')?>"><?=$this->translate('Home')?></a></li>
+                            <li><a href="#"><?=$this->translate('Reset')?></a></li>
+                            <li><a href="view-source:#"><?=$this->translate('View Source')?></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <footer>
+                <div id="footer">
+                    <p>&copy; 2014 Created by Michal Gacki</p>
+                </div>
+            </footer>
+        </div>
+        <?=$this->inlineScript()?>
     </body>
 </html>
