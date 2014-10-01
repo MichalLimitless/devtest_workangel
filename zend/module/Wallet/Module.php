@@ -14,7 +14,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Wallet\Model\WalletTable;
 use Wallet\Model\WalletCurrencyTable;
 use Wallet\Model\WalletItemTable;
-use User\Model\UserTable;
+use \User\Model\UserTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -114,7 +114,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
                     
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Model\User());
+                    $resultSetPrototype->setArrayObjectPrototype(new \User\Model\User());
                     
                     return new TableGateway('user', $dbAdapter, null, $resultSetPrototype);
                     

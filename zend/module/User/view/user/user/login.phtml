@@ -1,0 +1,13 @@
+<?php
+$title = 'Log in';
+$this->headTitle($title);
+?>
+<h1><?=$this->escapeHtml($title)?></h1>
+<p><?=$this->translate('You need to be logged in to access your wallet')?>
+<?php
+$form->setAttribute('action', $this->url('user', array('action' => 'login')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formCollection($form);
+echo $this->form()->closeTag();

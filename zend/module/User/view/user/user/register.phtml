@@ -1,0 +1,12 @@
+<?php
+$title = 'Register';
+$this->headTitle($title);
+?>
+<h1><?=$this->escapeHtml($title)?></h1>
+<?php
+$form->setAttribute('action', $this->url('user', array('action' => 'register')));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formCollection($form);
+echo $this->form()->closeTag();
