@@ -1,4 +1,3 @@
 <p><?=$this->translate('Welcome to your wallet application.')?></p>
-<p><?=$this->translate('If you want to open new wallet, please log in or register.')?></p>
-
-<a href="<?=$this->url('user', array('action' => 'login'))?>"><?=$this->translate('Log in')?></a> | <a href="<?=$this->url('user', array('action' => 'register'))?>"><?=$this->translate('Register')?></a> 
+<p><?=$this->translate('If you want to open new wallet, please')?> <a href="<?=$this->url('user', array('action' => 'register'))?>"><?=$this->translate('register.')?></a></p>
+<p><a href="<?=$this->url('user', array('action' => 'login'))?>"><?=$this->translate('Log in')?></a> <?=$this->translate('to access your existing wallet.')?></p>

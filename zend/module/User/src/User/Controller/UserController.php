@@ -30,6 +30,12 @@ class UserController extends AbstractActionController {
      */
     protected $userTable;
     
+    /**
+     * Logged user handler
+     * @var User
+     */
+    protected $loggedUser = null;
+    
     //--------------------------------------------------------------------------
     /**
      * Database controller
@@ -166,19 +172,51 @@ class UserController extends AbstractActionController {
      */
     public function isUserLoggedIn($User = null) {
         //--------------------------------------------------------------------------------------------------------------------
-        if (!$credentials = $this->getUserCredentials()) {
-            return false;
-        }
-        
-        if ($User === null) {
-            $User = $this->getUserTable()->getUserCustom(array('email' => $credentials->email));
+        if ($this->loggedUser === null) {
             
-            if (!$User) {
+            if (!$credentials = $this->getUserCredentials()) {
                 return false;
             }
-        }   
+            
+            $this->loggedUser = $this->getLoggedUser($User, $credentials);
+
+            return $this->authorizeUser($this->loggedUser, $credentials->email, $credentials->password, false);
+            
+        }
+        else {
+            return true;
+        }
+    }
+    
+    /**
+     * Get logged user data
+     * @return User
+     */
+    public function getLoggedUser($User = null, $credentials = null) {
         
-        return $this->authorizeUser($User, $credentials->email, $credentials->password, false);
+        if ($this->loggedUser === null) {
+
+            if ($credentials === null) {
+                if (!$credentials = $this->getUserCredentials()) {
+                    return false;
+                }
+            }
+            
+            if ($User === null) {
+                $User = $this->getUserTable()->getUserCustom(array('email' => $credentials->email));
+
+                if (!$User) {
+                    return false;
+                }
+                else {
+                    $this->loggedUser = $User;
+                }
+            }   
+            
+        }
+        
+        return $this->loggedUser;
+        
     }
     
     //--------------------------------------------------------------------------

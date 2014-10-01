@@ -3,7 +3,7 @@ $title = 'Log in';
 $this->headTitle($title);
 ?>
 <h1><?=$this->escapeHtml($title)?></h1>
-<p><?=$this->translate('You need to be logged in to access your wallet')?>
+<p><?=$this->translate('You need to be logged in to access your wallet. No account? ')?><a href="<?=$this->url('user', array('action' => 'register'))?>"><?=$this->translate('Register now.')?></a></p>
 <?php
 $form->setAttribute('action', $this->url('user', array('action' => 'login')));
 $form->prepare();

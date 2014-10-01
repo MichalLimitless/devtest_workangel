@@ -24,9 +24,8 @@
                         <i id="menu_collapse" ng-init="navCollapsed = false" ng-click="navCollapsed = !navCollapsed" class="fa-navicon fa-reorder fa-bars"></i>
                         <ul class="collapse hidden" ng-class="!navCollapsed && 'hidden'" ng-click="navCollapsed=true">
                             <li class="active"><a href="<?=$this->url('home')?>"><?=$this->translate('Home')?></a></li>
-                            <li><a href="#"><?=$this->translate('Reset')?></a></li>
-                            <li><a href="view-source:#"><?=$this->translate('View Source')?></a></li>
-                        </ul>
+                            <li><a href="<?=$this->url('wallet', array('action' => 'reset'))?>"><?=$this->translate('Reset')?></a></li>
+                            <li><a href="view-source:https://www.partylover.uk<?=$this->url()?>"><?=$this->translate('View Source')?></a></li>
                     </div>
                 </nav>
             </header>
