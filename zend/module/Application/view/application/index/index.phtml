@@ -1,1 +1,4 @@
-{{AngularTest}}
+<p><?=$this->translate('Welcome to your wallet application.')?></p>
+<p><?=$this->translate('If you want to open new wallet, please log in or register.')?></p>
+
+<a href="<?=$this->url('user', array('action' => 'login'))?>"><?=$this->translate('Log in')?></a> | <a href="<?=$this->url('user', array('action' => 'register'))?>"><?=$this->translate('Register')?></a> 
