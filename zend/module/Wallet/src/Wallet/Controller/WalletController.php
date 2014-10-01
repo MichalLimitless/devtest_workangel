@@ -15,7 +15,11 @@ use Wallet\Model\Wallet;
 use Wallet\Form\WalletForm;
 use User\Model\User;
 use \User\Controller\UserController;
+use Zend\Http\Response;
 
+/**
+ * @todo Delete this
+ */
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -142,6 +146,10 @@ class WalletController extends AbstractActionController {
         
     }
     
+    /**
+     * Get user controller
+     * @return UserController
+     */
     public function getUserModule() {
         
         if ($this->userInstance === null) {
@@ -236,13 +244,29 @@ class WalletController extends AbstractActionController {
         
         $wallets = $this->getWalletTable()->deleteWalletCustom(array('user_id' => $loggedUser->getId()));
         
+        return $this->redirect()->toRoute('wallet', array('action' => 'add'));
+        
     }
     
     public function removeAction() {
         
+        $response = new Response();
+        $response->setStatusCode(Response::STATUS_CODE_410);
+        $response->getHeaders()->addHeaders(array(
+            'Content-Type' => 'text/plain'
+        ));
+        $response->setContent($this->layout('wallet/rest/remove.phtml'));
+        
     }
     
     public function newAction() {
+        
+        $response = new Response();
+        $response->setStatusCode(Response::STATUS_CODE_200);
+        $response->getHeaders()->addHeaders(array(
+            'Content-Type' => 'text/plain'
+        ));
+        $response->setContent($this->layout('wallet/rest/new.phtml'));
         
     }
     

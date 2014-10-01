@@ -20,9 +20,12 @@ i { font: normal normal normal 1em/1 FontAwesome; }
         #main #content h1 { font-size: 1.5em; }
         #main #content form fieldset { padding: 20px 0 0 20%; }
         #main #content form fieldset legend { display: none; }
-        #main #content form fieldset button, #main #content form fieldset input[type="submit"] { padding: 5px; border: 0; border-radius: 5px; box-shadow: 0 0 5px black; font-family: Arial; font-weight: bold; text-transform: uppercase; font-size: 0.8em; text-shadow: 1px 1px 1px white; } 
+        #main #content button, #main #content input[type="submit"] { padding: 5px; border: 0; border-radius: 5px; box-shadow: 0 0 5px black; font-family: Arial; font-weight: bold; text-transform: uppercase; font-size: 0.8em; text-shadow: 1px 1px 1px white; } 
         #main #content form fieldset label { display: block; padding: 5px 0 5px 0; }
             #main #content form fieldset label span { float: left; width: 30%; }
+        #main #content table { width: 100%; border-left: 1px solid #666; border-top: 1px solid #666; }
+            #main #content table td, #main #content table th { padding: 10px; border-right: 1px solid #666; border-bottom: 1px solid #666; }
+            #main #content table th { background: #ccc; }
     #main #footer { margin: 10px 0 0 0; padding: 10px 0 10px 0; font-size: 0.8em; clear: both; overflow: hidden; text-align: center; border-top: 1px solid #999; }
 @media screen and (max-width: 600px) {
     body { margin: 0 2% 0 2%; }

@@ -4,39 +4,42 @@ $this->headTitle($title);
 ?>
 <a href="<?=$this->url('user', array('action' => 'logout'))?>"><?=$this->translate('Logout')?></a>
 <h1><?=$this->escapeHtml($title)?></h1>
-<p><a href="<?=$this->url('wallet', array('action' => 'new'))?>"><?=$this->translate('Add new amount')?> (<?=$currency->getCodeAlternative()?>)</a></p>
-
-<table class="table">
- <tr>
-     <th><?=$this->translate('Date added')?></th>
-     <th><?=$this->translate('Amount')?></th>
-     <th><?=$this->translate('Options')?></th>
- </tr>
- <?php foreach ($items as $item) : ?>
- <tr>
-     <td><?=$this->escapeHtml($item->getDateCreated())?></td>
-     <td><?=$this->escapeHtml(number_format($item->getAmount()))?> <?=$currency->getCodeAlternative()?></td>
-     <td><a href="#">Remove</a></td>
- </tr>
- <?php endforeach; ?>
- <tr>
-     <td><?=$this->translate('Grand total:')?></td>
-     <td colspan="2"><?=$total?> <i class="<?=$currency->getFontSymbol()?>"></i></td>
- </tr>
+<div ng-bind-html="cfdump"></div>
+<table class="table" cellpadding="0" cellspacing="0">
+    <tr>
+        <th><?=$this->translate('Date added')?></th>
+        <th><?=$this->translate('Amount')?></th>
+        <th><?=$this->translate('Options')?></th>
+    </tr>
+    <tr>
+        <td><?=$this->translate('Add new:')?></td>
+        <td colspan="2"><input type="text" value="0"> <?=$currency->getCodeAlternative()?> <button><?=$this->translate('Add')?></button></td>
+    </tr>
+    <?php foreach ($items as $item) :?>
+        <tr>
+            <td><?=$this->escapeHtml($item->getDateCreated())?></td>
+            <td><?=$this->escapeHtml(number_format($item->getAmount()))?> <?=$currency->getCodeAlternative()?></td>
+            <td><a href="#">Remove</a></td>
+        </tr>
+    <?php endforeach;?>
+    <tr>
+        <td><?=$this->translate('Grand total:')?></td>
+        <td colspan="2"><?=$total?> <i class="<?=$currency->getFontSymbol()?>"></i></td>
+    </tr>
 </table>
 
 <h1 style="margin-top: 50px;"><?=$this->translate('Amount removed from your wallet')?></h1>
 
 <table class="table">
- <tr>
-     <th><?=$this->translate('Date added')?></th>
-     <th><?=$this->translate('Amount')?></th>
-     <th><?=$this->translate('Options')?></th>
- </tr>
- <?php foreach ($items_removed as $item) : ?>
- <tr>
-     <td><?=$this->escapeHtml($item->getDateRemoved())?></td>
-     <td><?=$this->escapeHtml(number_format($item->getAmount()))?> <?=$currency->getCodeAlternative()?></td>
- </tr>
- <?php endforeach; ?>
+    <tr>
+        <th><?=$this->translate('Date added')?></th>
+        <th><?=$this->translate('Amount')?></th>
+        <th><?=$this->translate('Options')?></th>
+    </tr>
+    <?php foreach ($items_removed as $item) :?>
+        <tr>
+            <td><?=$this->escapeHtml($item->getDateRemoved())?></td>
+            <td><?=$this->escapeHtml(number_format($item->getAmount()))?> <?=$currency->getCodeAlternative()?></td>
+        </tr>
+    <?php endforeach;?>
 </table>
