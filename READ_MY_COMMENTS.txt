@@ -1,0 +1,63 @@
+1. I created repository on GitHub as you requested
+
+- I included project files only, not the whole Zend2, as this should work on any Zend2 version.
+- I used PHPdoc (as I always do) in my code.
+- All my code is written usign camelCase which is Zend standard, but I think the most practical way for PHP Code is using PascalCase and lower_case (depends on a class and access to a function/variable).
+- To save some time for this test I didn't configure git on my virtual machine, so all commits done from my server are marked with "root" user.
+
+2. Server configuration
+
+- Default Apache installation with PHP,
+- Allowoverride All for .htaccess support,
+- mod_rewrite enabled,
+- PHP: short_open_tag enabled,
+- PHP: include_path with Zend library
+
+3. You can see the project online with the link in your email
+
+I know it's not safe to include whole path to public directory in the URL (which makes it all public, except .htaccess denies), but this is just a test project and I will not do something like that in any production. 
+In this case this saved me some time and I was able to show you this test with TLS
+- I didn't use AngularJS or FontAwesome official CDNs in this project.
+Advantage of this attitude is you can enjoy the project on your localhost without internet access.
+If I will include official CNDs URLs in site header, there is a chance that user have already cached versions of these files and this could save some time and bandwidth. 
+Also, this will be easier way to keep all files up-to-date.
+Overall, practices I use depend on a project I work with.
+
+4. Back-end
+
+- I used simple MySQL database as storage and implemented all tables in Zend ORM models,
+- I added some extra columns and methods to help expanding app in the future very fast (if this would be a real app - it's my habit),
+- You need to create your user account to use wallet. Every user can have as many wallets as wants (in database), but I limited this to one wallet default (as described in spec),
+- Currency chosen as default is used for all wallet's amounts, but it is possible to choose different currency for every amount stored in a wallet (in database for now). 
+This is also an option to extend the app without many troubles and changing a lot of the code.
+- I didn't have time to do user-friendly exception handler and forms fields validation (except this one with AngularJS for adding amount to a wallet). But that's pretty easy, I can do this if you want to.
+
+Overall, I've done this very quickly. I really doubt somebody can do backend like this on Zend, including virtual machine configuration, in less than 3 hours.
+
+5. Worked hours:
+
+30.09.2014
+
+7:40 PM - 9:00 PM  (1 h 20 min, but shouldn't count as working on the project)
+- Virtual machine configuration
+- Git, Composer, Zend2 installation
+
+11:00 PM - 00:20 AM (1 h 20 min)
+- Front-end responsive simple layout from scratch
+- AngularJS application
+
+01.10.2014
+
+9:00 PM - 10:20 PM (1 h 20 min)
+- Database structure
+- Zend custom modules + ORM
+
+11:30 PM - 00:30 AM (1 h)
+- Finished modules
+- Starting with AngularJS-Zend integration for adding and removing amounts to/from a wallet 
+
+02.10.2014
+
+02:30 AM - 3:30 AM (1 h)
+- AngularJS logic + HTTP requests to Zend
+- Some details
