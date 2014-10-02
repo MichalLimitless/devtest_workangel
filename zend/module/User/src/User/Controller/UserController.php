@@ -4,7 +4,8 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
+ * @todo Separate password / log in functions as standalone controllers or modules
  */
 
 namespace User\Controller;
@@ -15,12 +16,6 @@ use User\Model\User;
 use User\Form\LoginForm;
 use User\Form\RegisterForm;
 use Zend\Http\Client;
-
-/**
- * @todo Delete this
- */
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
 class UserController extends AbstractActionController {
     
@@ -131,12 +126,12 @@ class UserController extends AbstractActionController {
                     $json_data = new \stdClass();
                     $json_data->email = $email;
                     $json_data->password = $password;
-                    $json_data = json_encode($json_data);
+                    $json_data = \json_encode($json_data);
 
                     /**
-                     * @fixme Change cookie adding method to Zend HTTP Client
+                     * @todo Change cookie adding method to Zend HTTP Client
                      */
-                    setcookie('user', base64_encode($json_data), time()+3600, '/');
+                    \setcookie('user', \base64_encode($json_data), \time()+3600, '/');
                 }
                 
                 return true;
@@ -148,13 +143,17 @@ class UserController extends AbstractActionController {
         
     }
     
+    /**
+     * Get user cookie credentials
+     * @return \stdClass
+     */
     public function getUserCredentials() {
         
         if (empty($_COOKIE['user'])) {
             return false;
         }
         
-        $credentials = json_decode(base64_decode($_COOKIE['user']));
+        $credentials = \json_decode(\base64_decode($_COOKIE['user']));
         
         if (empty($credentials)) {
             return false;
@@ -271,7 +270,7 @@ class UserController extends AbstractActionController {
      */
     public function logoutAction() {
         
-        setcookie('user', '', time()-3600, '/');
+        \setcookie('user', '', time()-3600, '/');
         
         return $this->redirect()->toRoute('home');
         
@@ -300,6 +299,7 @@ class UserController extends AbstractActionController {
              * If form is valid:
              */
             if ($form->isValid()) {
+                
                 $form_data = $form->getData();
                 $user_data = array(
                     'email'     => $form_data['email'],
@@ -308,6 +308,7 @@ class UserController extends AbstractActionController {
                 
                 /**
                  * Additional user data
+                 * Password hash generation here
                  */
                 $salt = $this->getRandomSalt();
                 $form_data['salt'] = $salt;

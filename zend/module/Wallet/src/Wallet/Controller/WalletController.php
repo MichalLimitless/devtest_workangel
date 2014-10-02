@@ -4,7 +4,8 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
+ * @todo Separate controller to few smaller ones
  */
 
 namespace Wallet\Controller;
@@ -12,16 +13,12 @@ namespace Wallet\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Wallet\Model\Wallet;
+use Wallet\Model\WalletCurrency;
+use Wallet\Model\WalletItem;
 use Wallet\Form\WalletForm;
 use User\Model\User;
 use \User\Controller\UserController;
 use Zend\Http\Response;
-
-/**
- * @todo Delete this
- */
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
 class WalletController extends AbstractActionController {
 
@@ -140,7 +137,7 @@ class WalletController extends AbstractActionController {
             );
         }
         
-        sort($values_options_temp);
+        \sort($values_options_temp);
         
         return $values_options_temp;
         
@@ -200,7 +197,7 @@ class WalletController extends AbstractActionController {
          */
         $userWallet = $this->getWalletTable()->getWalletCustom(array('user_id' => $loggedUser->getId()));
 
-        if (!$userWallet || count($userWallet) <= 0) {
+        if (!$userWallet || \count($userWallet) <= 0) {
             return $this->redirect()->toRoute('wallet', array('action' => 'add'));
         }
         
@@ -208,21 +205,19 @@ class WalletController extends AbstractActionController {
          * Display wallet
          */
         $userWalletCurrency = $this->getWalletCurrencyTable()->getWalletCurrencyCustom(array('id' => $userWallet->getCurrencyIdDefault()));
-        $userWalletItems = array();
-        
-        $userWalletItemsActive = array();
-        $userWalletItemsRemoved = array();
         
         return new ViewModel(array(
             'wallet'        => $userWallet,
-            'items'         => $userWalletItemsActive,
-            'items_removed' => $userWalletItemsRemoved,
             'currency'      => $userWalletCurrency,
-            'total'         => 0
         ));
         
     }
     
+    /**
+     * Mark wallet as removed
+     * @route /wallet/reset/
+     * @return type
+     */
     public function resetAction() {
         
         /**
@@ -248,31 +243,178 @@ class WalletController extends AbstractActionController {
         
     }
     
+    /**
+     * AJAX
+     * Remove amount
+     * @route /wallet/remove/:id/
+     */
     public function removeAction() {
         
-        $response = new Response();
-        $response->setStatusCode(Response::STATUS_CODE_410);
-        $response->getHeaders()->addHeaders(array(
-            'Content-Type' => 'text/plain'
-        ));
-        $response->setContent($this->layout('wallet/rest/remove.phtml'));
+        /**
+         * Get User module
+         */
+        $user = $this->getUserModule();
+        
+        /**
+         * If user isn't logged, redirect to login screen
+         */
+        if (!$user->isUserLoggedIn()) {
+            exit();
+        }
+        
+        /**
+         * Get logged user data
+         */
+        $loggedUser = $user->getLoggedUser();
+        
+        /**
+         * Check if user hasn't any wallet 
+         */
+        $userWallet = $this->getWalletTable()->getWalletCustom(array('user_id' => $loggedUser->getId()));
+ 
+        \header('Content-Type: application/json');
+        
+        $input = \json_decode(\file_get_contents('php://input'));
+
+        if (\intval($input->id) > 0) {
+            
+            $walletItem = $this->getWalletItemTable()->getWalletItemCustomOne(array('id' => $input->id, 'wallet_id' => $userWallet->getId()));
+            $this->getWalletItemTable()->deleteWalletItem($walletItem->getId());
+            
+            \http_response_code(410);
+            
+        }
+        else {
+            \http_response_code(400);
+        }
+        
+        exit();
+        //$response->setContent($this->layout('wallet/rest/remove.phtml'));
         
     }
     
+    /**
+     * AJAX
+     * Add new item to a wallet
+     * @route /wallet/new/
+     */
     public function newAction() {
         
-        $response = new Response();
-        $response->setStatusCode(Response::STATUS_CODE_200);
-        $response->getHeaders()->addHeaders(array(
-            'Content-Type' => 'text/plain'
-        ));
-        $response->setContent($this->layout('wallet/rest/new.phtml'));
+        /**
+         * Get User module
+         */
+        $user = $this->getUserModule();
+        
+        /**
+         * If user isn't logged, redirect to login screen
+         */
+        if (!$user->isUserLoggedIn()) {
+            exit();
+        }
+        
+        /**
+         * Get logged user data
+         */
+        $loggedUser = $user->getLoggedUser();
+        
+        /**
+         * Check if user hasn't any wallet 
+         */
+        $userWallet = $this->getWalletTable()->getWalletCustom(array('user_id' => $loggedUser->getId()));
+ 
+        \header('Content-Type: application/json');
+        
+        $input = \json_decode(\file_get_contents('php://input'));
+        
+        if (\floatval($input->amount) == $input->amount) {
+            
+            $walletItem = new WalletItem();
+            $walletItem->setWalletId($userWallet->getId());
+            $walletItem->setCurrencyId($userWallet->getCurrencyIdDefault());
+            $walletItem->setAmount($input->amount);
+            $walletItem->setDateCreated($input->dateCreated);
+            
+            $id = $this->getWalletItemTable()->saveWalletItem($walletItem);
+            $input->id = $id;
+            
+            print \json_encode($input, \JSON_PRETTY_PRINT);
+            \http_response_code(200);
+            
+        }
+        else {
+            \http_response_code(400);
+        }
+        
+        exit();
+        
+    }
+    
+    /**
+     * AJAX
+     * Get items
+     * @route /wallet/items/
+     */
+    public function itemsAction() {
+        
+        /**
+         * Get User module
+         */
+        $user = $this->getUserModule();
+        
+        /**
+         * If user isn't logged, redirect to login screen
+         */
+        if (!$user->isUserLoggedIn()) {
+            exit();
+        }
+        
+        /**
+         * Get logged user data
+         */
+        $loggedUser = $user->getLoggedUser();
+        
+        /**
+         * Check if user hasn't any wallet 
+         */
+        $userWallet = $this->getWalletTable()->getWalletCustom(array('user_id' => $loggedUser->getId()));
+ 
+        \header('Content-Type: application/json');
+
+        $userWalletItemTable = $this->getWalletItemTable();
+        $userWalletItem = $userWalletItemTable->getWalletItemCustom(array('wallet_id' => $userWallet->getId()));
+                    
+        $response = new \stdClass();
+        $response->active = array();
+        $response->removed = array();
+
+        foreach ($userWalletItem as $item) {
+            
+            $current_item = array(
+                'id'            => $item->getId(),
+                'amount'        => $item->getAmount(),
+                'dateCreated'   => $item->getDateCreated(),
+                'dateRemoved'   => $item->getDateRemoved()
+            );
+            
+            if ($item->getStatus() == 'removed') {
+                $response->removed[] = $current_item;
+            }
+            else {
+                $response->active[] = $current_item;
+            }
+        }
+        
+        print \json_encode($response, \JSON_PRETTY_PRINT);
+        
+        \http_response_code(200);
+        
+        exit();
         
     }
     
     /**
      * Add new wallet
-     * @fixme Check if user is logged
+     * @route /wallet/add/
      * @return array
      */
     public function addAction() {

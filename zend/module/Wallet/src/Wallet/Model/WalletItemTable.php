@@ -4,7 +4,8 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
+ * @todo Add some common functions to not repeat myself.
  */
 
 namespace Wallet\Model;
@@ -58,6 +59,42 @@ class WalletItemTable {
         return $row;
         
     }
+    
+    /**
+     * SELECT abstract
+     * Get Wallet Item record as object
+     * @param $array $where Associative where array
+     * @return WalletItem
+     * @throws \Exception
+     */
+    public function getWalletItemCustom($where) {
+        
+        $rowset = $this->tableGateway->select($where);
+        
+        return $rowset;
+        
+    }
+    
+    /**
+     * SELECT abstract
+     * Get Wallet Item record as object
+     * @param $array $where Associative where array
+     * @return WalletItem
+     * @throws \Exception
+     */
+    public function getWalletItemCustomOne($where) {
+        
+        $where['status'] = 'active';
+        
+        $rowset = $this->tableGateway->select($where);
+        $row = $rowset->current();
+        if (!$row) {
+            return false;
+        }
+        
+        return $row;
+        
+    }
 
     /**
      * INSERT abstract
@@ -76,10 +113,13 @@ class WalletItemTable {
             'status'            => $wallet_item->getStatus()
         );
 
-        $id = intval($wallet_currency->id);
+        $id = intval($wallet_item->getId());
         
         if ($id == 0) {
             $this->tableGateway->insert($data);
+            $id = $this->tableGateway->lastInsertValue;
+            
+            return $id;
         }
         else {
             if ($this->getWalletItem($id)) {

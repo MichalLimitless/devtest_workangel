@@ -4,7 +4,8 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
+ * @todo Add some common functions to not repeat myself.
  */
 
 namespace Wallet\Model;

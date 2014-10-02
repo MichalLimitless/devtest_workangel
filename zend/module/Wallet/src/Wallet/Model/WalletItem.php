@@ -4,13 +4,12 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
  */
 
 namespace Wallet\Model;
 
 class WalletItem {
-    
     //--------------------------------------------------------------------------
     /**
      * Model definitions
@@ -87,7 +86,7 @@ class WalletItem {
      * @return integer
      */
     public function getWalletId() {
-        return $this->order;
+        return $this->wallet_id;
     }
     
     /**
@@ -103,7 +102,7 @@ class WalletItem {
      * @return integer
      */
     public function getCurrencyId() {
-        return $this->order;
+        return $this->currency_id;
     }
     
     /**
@@ -127,7 +126,7 @@ class WalletItem {
      * @param float $amount
      */
     public function setAmount($amount) {
-        $this->amount = $amount;
+        $this->amount = \floatval($amount);
     }
     
     /**
@@ -183,7 +182,6 @@ class WalletItem {
         $this->date_removed = $date->format('Y-m-d H:i:s');
         
     }
-    
   
     /**
      * Get item status. 

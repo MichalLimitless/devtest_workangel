@@ -17,6 +17,10 @@ use Zend\Db\TableGateway\TableGateway;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
 
+    /**
+     * Zend autoloader
+     * @return array
+     */
     public function getAutoloaderConfig() {
 
         return array(
@@ -31,6 +35,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface {
         );
     }
 
+    /**
+     * Zend config include.
+     * It's odd solution by the way.
+     * @return array
+     */
     public function getConfig() {
         return include __DIR__.'/config/module.config.php';
     }

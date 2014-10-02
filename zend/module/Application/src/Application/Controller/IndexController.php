@@ -4,7 +4,7 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
  */
 
 namespace Application\Controller;
@@ -23,7 +23,8 @@ use Zend\InputFilter\InputFilter;
 class IndexController extends AbstractActionController {
 
     /**
-     * Homepage action - user wallet
+     * Homepage action - welcome page
+     * @todo check with User module if user is logged and display another view
      * @route /
      * @return ViewModel
      */

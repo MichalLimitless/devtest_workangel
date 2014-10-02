@@ -4,7 +4,8 @@
  * Work Angel Test
  * Based on Zend Framework 2
  * 
- * Michal Gacki
+ * @author Michal Gacki
+ * @todo Add some common functions to not repeat myself.
  */
 
 namespace Wallet\Model;
@@ -140,6 +141,11 @@ class WalletTable {
         
     }
     
+    /**
+     * DELETE abstract
+     * Mark Wallet record as removed
+     * @param array $where Associative where array
+     */
     public function deleteWalletCustom($where) {
         
         $where['status'] = 'active';
